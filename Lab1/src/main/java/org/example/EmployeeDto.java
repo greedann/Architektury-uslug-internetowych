@@ -1,14 +1,14 @@
 package org.example;
 
-public class CharacterDto implements Comparable<CharacterDto> {
+public class EmployeeDto implements Comparable<EmployeeDto> {
     String name;
     int level;
-    String profession;
+    String company;
 
-    public CharacterDto(String name, int level, String profession) {
+    public EmployeeDto(String name, int level, String company) {
         this.name = name;
         this.level = level;
-        this.profession = profession;
+        this.company = company;
     }
 
     public int getLevel() {
@@ -17,15 +17,15 @@ public class CharacterDto implements Comparable<CharacterDto> {
 
     @Override
     public String toString() {
-        return "CharacterDto{" +
+        return "EmployeeDto{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
-                ", profession='" + profession + '\'' +
+                ", company='" + company + '\'' +
                 '}';
     }
 
     @Override
-    public int compareTo(CharacterDto other) {
+    public int compareTo(EmployeeDto other) {
         return this.name.compareTo(other.name);
     }
 
@@ -49,8 +49,8 @@ public class CharacterDto implements Comparable<CharacterDto> {
             return this;
         }
 
-        public CharacterDto createCharacterDto() {
-            return new CharacterDto(name, level, profession);
+        public EmployeeDto createCharacterDto() {
+            return new EmployeeDto(name, level, profession);
         }
     }
 }

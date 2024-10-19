@@ -2,16 +2,16 @@ package org.example;
 
 import java.io.Serializable;
 
-public class Character implements Comparable<Character>, Serializable {
+public class Employee implements Comparable<Employee>, Serializable {
     String name;
     int level;
-    Profession profession;
+    Company company;
 
-    public Character(String name, int level, Profession profession) {
+    public Employee(String name, int level, Company company) {
         this.name = name;
         this.level = level;
-        this.profession = profession;
-        profession.characters.add(this);
+        this.company = company;
+        company.employees.add(this);
     }
 
     public int getLevel() {
@@ -23,23 +23,23 @@ public class Character implements Comparable<Character>, Serializable {
     }
 
     @Override
-    public int compareTo(Character other) {
+    public int compareTo(Employee other) {
         return this.name.compareTo(other.name);
     }
 
     @Override
     public String toString() {
-        return "Character{" +
+        return "Employee{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
-                ", profession=" + profession +
+                ", company=" + company +
                 '}';
     }
 
     public class Builder {
         private String name;
         private int level;
-        private Profession profession;
+        private Company company;
 
         public Builder setName(String name) {
             this.name = name;
@@ -51,13 +51,13 @@ public class Character implements Comparable<Character>, Serializable {
             return this;
         }
 
-        public Builder setProfession(Profession profession) {
-            this.profession = profession;
+        public Builder setProfession(Company company) {
+            this.company = company;
             return this;
         }
 
-        public Character createCharacter() {
-            return new Character(name, level, profession);
+        public Employee createCharacter() {
+            return new Employee(name, level, company);
         }
     }
 }

@@ -4,23 +4,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Profession implements Comparable<Profession>, Serializable {
+public class Company implements Comparable<Company>, Serializable {
     String name;
-    int baseArmor;
-    List<Character> characters;
+    int capitalization;
+    List<Employee> employees;
 
-    public Profession(String name, int baseArmor) {
+    public Company(String name, int Capitalization) {
         this.name = name;
-        this.baseArmor = baseArmor;
-        this.characters = new ArrayList<>();
+        this.capitalization = Capitalization;
+        this.employees = new ArrayList<>();
     }
 
-    public int getBaseArmor() {
-        return baseArmor;
+    public int getCapitalization() {
+        return capitalization;
     }
 
-    public void setBaseArmor(int baseArmor) {
-        this.baseArmor = baseArmor;
+    public void setCapitalization(int capitalization) {
+        this.capitalization = capitalization;
     }
 
     public String getName() {
@@ -31,20 +31,20 @@ public class Profession implements Comparable<Profession>, Serializable {
         this.name = name;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
+    public List<Employee> getCharacters() {
+        return employees;
     }
 
     @Override
-    public int compareTo(Profession other) {
+    public int compareTo(Company other) {
         return this.name.compareTo(other.name);
     }
 
     @Override
     public String toString() {
-        return "Profession{" +
+        return "Company{" +
                 "name='" + name + '\'' +
-                ", baseArmor=" + baseArmor +
+                ", capitalization=" + capitalization +
                 '}';
     }
 
@@ -62,8 +62,8 @@ public class Profession implements Comparable<Profession>, Serializable {
             return this;
         }
 
-        public Profession createProfession() {
-            return new Profession(name, baseArmor);
+        public Company createProfession() {
+            return new Company(name, baseArmor);
         }
     }
 }

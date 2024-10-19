@@ -14,54 +14,47 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        Profession warrior = new Profession("Warrior", 100);
-        Profession mage = new Profession("Mage", 50);
-        Profession rogue = new Profession("Rogue", 75);
+        Company google = new Company("Google", 100);
+        Company amazon = new Company("Amazon", 50);
+        Company meta = new Company("Meta", 75);
 
-        Character warriorCharacter = new Character("Warrior", 10, warrior);
-        Character warriorCharacter2 = new Character("Warrior2", 10, warrior);
-        Character mageCharacter = new Character("AMage", 5, mage);
-        Character rogueCharacter = new Character("ARogue", 7, rogue);
+        Employee googleEmployee1 = new Employee("Segrey Brin", 10, google);
+        Employee googleEmployee2 = new Employee("Larry Page", 11, google);
+        Employee amazonEmployee = new Employee("Jeff Bezos", 5, amazon);
+        Employee metaEmployee = new Employee("Mark Zukerberg", 7, meta);
 
-        System.out.println(warriorCharacter);
-        System.out.println(mageCharacter);
-        System.out.println(rogueCharacter);
+        System.out.println(googleEmployee1);
+        System.out.println(amazonEmployee);
+        System.out.println(metaEmployee);
 
-        System.out.println(warrior);
-        System.out.println(mage);
-        System.out.println(rogue);
+        System.out.println(google);
+        System.out.println(amazon);
+        System.out.println(meta);
 
-        System.out.println(warrior.getCharacters());
-        System.out.println(mage.getCharacters());
-        System.out.println(rogue.getCharacters());
+        System.out.println(google.getCharacters());
+        System.out.println(amazon.getCharacters());
+        System.out.println(meta.getCharacters());
 
-        List<Profession> professions = Stream.of(warrior, mage, rogue)
+        List<Company> companies = Stream.of(google, amazon, meta)
                 .collect(Collectors.toList());
 
-        HashSet<Character> CharactersSet = professions.stream()
-                .flatMap(profession -> profession.getCharacters().stream())
-                .collect(Collectors.toList()).stream().collect(Collectors.toCollection(HashSet::new));
+        HashSet<Employee> charactersSet = companies.stream()
+                .flatMap(company -> company.getCharacters().stream()).collect(Collectors.toCollection(HashSet::new));
 
-        CharactersSet.stream().forEach(System.out::println);
+        charactersSet.forEach(System.out::println);
 
         System.out.println("Sorted by name:");
 
-        CharactersSet.stream().filter(character -> character.profession == warrior).sorted()
+        charactersSet.stream().filter(employee -> employee.company == google).sorted()
                 .forEach(System.out::println);
 
         System.out.println("Transformed to DTO:");
 
-        // Using single Stream API pipeline transform elements collection created
-        // earlier into
-        // steam of DTO objects, then sort them using natural order and collect them
-        // into
-        // List collection. Then using second pipeline print it. (1 point)
+        List<EmployeeDto> characterList = charactersSet.stream()
+                .map(employee -> new EmployeeDto(employee.name, employee.level, employee.company.name))
+                .sorted().toList();
 
-        List<CharacterDto> characterList = CharactersSet.stream()
-                .map(character -> new CharacterDto(character.name, character.level, character.profession.name))
-                .sorted().collect(Collectors.toList());
-
-        characterList.stream().forEach(System.out::println);
+        characterList.forEach(System.out::println);
 
         String filename = "file.ser";
         // Serialization
@@ -71,7 +64,7 @@ public class Main {
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             // Method for serialization of object
-            out.writeObject(professions);
+            out.writeObject(companies);
 
             out.close();
             file.close();
@@ -82,7 +75,7 @@ public class Main {
             System.out.println("IOException is caught");
         }
 
-        List<Profession> professionsDeserialized = null;
+        List<Company> professionsDeserialized = null;
 
         // Deserialization
         try {
@@ -91,17 +84,17 @@ public class Main {
             ObjectInputStream in = new ObjectInputStream(file);
 
             // Method for deserialization of object
-            professionsDeserialized = (List<Profession>) in.readObject();
+            professionsDeserialized = (List<Company>) in.readObject();
 
             in.close();
             file.close();
 
             System.out.println("Object has been deserialized ");
 
-            professionsDeserialized.stream().forEach(System.out::println);
+            professionsDeserialized.forEach(System.out::println);
 
             professionsDeserialized.stream()
-                    .flatMap(profession -> profession.getCharacters().stream())
+                    .flatMap(company -> company.getCharacters().stream())
                     .forEach(System.out::println);
         } catch (IOException ex) {
             System.out.println("IOException is caught");
@@ -109,24 +102,17 @@ public class Main {
             System.out.println("ClassNotFoundException is caught");
         }
 
-        // Using Stream API parallel pipelines with custom thread pool execute some task
-        // on
-        // each category. For example task can be printing each collection elements with
-        // intervals using Thread.sleep() to simulate workload. Observer result with
-        // different custom pool sizes. For thread pool use ForkJoinPool Remember about
-        // closing the thread pool. (2 points)
-
         ForkJoinPool customThreadPool = new ForkJoinPool(2);
 
         customThreadPool.submit(() -> {
             System.out.println("Warrior characters:");
-            professions.parallelStream()
-                    .flatMap(profession -> profession.getCharacters().stream())
-                    .filter(character -> character.name.startsWith("A"))
-                    .forEach(character -> {
+            companies.parallelStream()
+                    .flatMap(company -> company.getCharacters().stream())
+                    .filter(employee -> employee.getLevel() < 10)
+                    .forEach(employee -> {
                         try {
                             Thread.sleep(1000);
-                            System.out.println(character);
+                            System.out.println(employee);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
