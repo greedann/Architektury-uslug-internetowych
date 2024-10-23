@@ -4,6 +4,7 @@ import com.example.lab2.model.Company;
 import com.example.lab2.model.Employee;
 import com.example.lab2.service.CompanyService;
 import com.example.lab2.service.EmployeeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,6 @@ public class AppRunner implements CommandLineRunner {
     private final CompanyService companyService;
     private final EmployeeService employeeService;
 
-    @Autowired
     public AppRunner(CompanyService companyService, EmployeeService employeeService) {
         this.companyService = companyService;
         this.employeeService = employeeService;
@@ -33,7 +33,8 @@ public class AppRunner implements CommandLineRunner {
             System.out.println("3. Show all companies");
             System.out.println("4. Show all employees");
             System.out.println("5. Show employees by company name");
-            System.out.println("6. Exit");
+            System.out.println("6. Delete company by id");
+            System.out.println("7. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -78,6 +79,15 @@ public class AppRunner implements CommandLineRunner {
                     }
                     break;
                 case 6:
+                    try {
+                        System.out.print("Enter id: ");
+                        UUID companyId = UUID.fromString(scanner.nextLine());
+                        companyService.deleteById(companyId);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println("Invalid choice");

@@ -1,10 +1,8 @@
 package com.example.lab2.service;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.lab2.model.Company;
 import com.example.lab2.model.Employee;
 import com.example.lab2.repository.EmployeeRepository;
 
@@ -17,7 +15,6 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }

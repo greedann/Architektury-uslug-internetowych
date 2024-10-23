@@ -29,7 +29,7 @@ public class Company implements Comparable<Company>, Serializable {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Employee> employees;
-    
+
     public Company(String name, int capitalization) {
         this.name = name;
         this.capitalization = capitalization;
@@ -55,7 +55,6 @@ public class Company implements Comparable<Company>, Serializable {
                 ", capitalization=" + capitalization +
                 '}';
     }
-    
 
     @Override
     public int compareTo(Company other) {
