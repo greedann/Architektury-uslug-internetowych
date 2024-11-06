@@ -64,10 +64,9 @@ public class CompanyControllerImplementation implements CompanyController {
 
     @Override
     public void deleteCompany(UUID id) {
-        try {
-            companyService.deleteById(id);
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        companyService.findById(id)
+            .map(companyToResponseFunction)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        companyService.deleteById(id);
     }
 }

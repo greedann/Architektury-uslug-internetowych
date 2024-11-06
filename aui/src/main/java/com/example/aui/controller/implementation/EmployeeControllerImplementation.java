@@ -72,6 +72,9 @@ public class EmployeeControllerImplementation implements EmployeeController {
 
     @Override
     public void deleteEmployee(UUID id) {
+        employeeService.findById(id)
+                .map(employeeToResponseFunction)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         employeeService.deleteById(id);
     }
 
