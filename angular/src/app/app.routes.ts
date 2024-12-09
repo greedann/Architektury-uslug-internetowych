@@ -18,32 +18,38 @@ export const routes: Routes = [
   {
     component: CompanyComponent,
     path: 'companies',
-  },
-  {
-    component: EditCompanyComponent,
-    path: "companies/:id/edit",
-  },
-  {
-    component: DetailsCompanyComponent,
-    path: "companies/:id",
+    pathMatch: 'full',
   },
   {
     component: AddCompanyComponent,
     path: 'companies/new',
+    pathMatch: 'full',
+  },
+  {
+    component: EditCompanyComponent,
+    path: 'companies/:id/edit',
+    pathMatch: 'full',
+  },
+  {
+    component: DetailsCompanyComponent,
+    path: 'companies/:id',
+    pathMatch: 'full',
   },
   {
     component: AddEmployeeComponent,
     path: 'companies/:id/employees/new',
+    pathMatch: 'full',
   },
   {
     component: EditEmployeeComponent,
     path: 'companies/:id/employees/:employeeId/edit',
+    pathMatch: 'full',
   },
   {
     component: DetailsEmployeeComponent,
     path: 'companies/:id/employees/:employeeId',
+    pathMatch: 'full',
   },
-
 ];
 
 @NgModule({
