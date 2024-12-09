@@ -1,0 +1,11 @@
+<h2>Add New Category</h2>
+<form (ngSubmit)="addCompany()">
+  <div>
+    <label for="companyName">Company Name:</label>
+    <input type="text" id="name" [(ngModel)]="CompanyName" name="name" required />
+    <input type="text" id="capitalization" [(ngModel)]="CompanyCapitalization" name="capitalization" required />
+  </div>
+  <button type="submit">Add Category</button>
+</form>
+
+<a routerLink="/companies">Back to Companies</a>

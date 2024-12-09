@@ -1,0 +1,11 @@
+<h2>Add New Employee</h2>
+<form (ngSubmit)="addEmployee()">
+  <div>
+    <label for="employeeName">Employee Name:</label>
+    <input type="text" id="employeeName" [(ngModel)]="employeeName" name="employeeName" required />
+    <label for="employeeLevel">Employee Level:</label>
+    <input type="text" id="employeeLevel" [(ngModel)]="employeeLevel" name="employeeLevel" required />
+  </div>
+  <button type="submit">Add Employee</button>
+</form>
+<a routerLink="/companies/{{ companyId }}">Back</a>

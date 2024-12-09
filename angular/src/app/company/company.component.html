@@ -1,0 +1,16 @@
+<div *ngIf="companies && companies.length > 0">
+  <h2>Companies</h2>
+  <ul>
+    <li *ngFor="let company of companies">
+      {{ company.name }}
+      <br>
+      <button (click)="removeCompany(company.id)">Remove</button>
+      <button [routerLink]="['/companies', company.id, 'edit']">Edit</button>
+      <button [routerLink]="['/companies', company.id]">View</button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="companies && companies.length === 0">No companies available.</div>
+
+<a routerLink="/companies/new">Add Company</a>
+

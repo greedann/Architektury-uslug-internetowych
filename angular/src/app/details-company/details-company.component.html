@@ -1,0 +1,20 @@
+<div *ngIf="company">
+  <h2>Category Details</h2>
+  <p><strong>Name:</strong> {{ company.name }}</p>
+  <p><strong>Capitalization:</strong> {{ company.capitalization }}</p>
+
+  <h3>Employees</h3>
+  <ul>
+    <li *ngFor="let employee of employees">
+      <span>{{ employee.name }}</span>
+      <br />
+      <button (click)="removeEmployee(employee.id)">Remove</button>
+      <button [routerLink]="['employees', employee.id, 'edit']">Edit</button>
+      <button [routerLink]="['employees', employee.id]">View</button>
+    </li>
+  </ul>
+
+  <a routerLink="employees/new">Add Employee</a>
+  <br />
+  <a routerLink="/companies">Back</a>
+</div>

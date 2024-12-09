@@ -1,0 +1,27 @@
+<div>
+  <h2>Edit Company</h2>
+  <form (ngSubmit)="updateCompany()">
+    <div>
+      <label for="companyName">company Name:</label>
+      <input
+        id="companyName"
+        [(ngModel)]="companyName"
+        name="companyName"
+        required
+      />
+    </div>
+    <div>
+      <label for="companyCapitalization">Company capitalization:</label>
+      <input
+        id="companyCapitalization"
+        [(ngModel)]="companyCapitalization"
+        name="companyCapitalization"
+        type="number"
+        required
+      />
+    </div>
+    <button type="submit">Update company</button>
+  </form>
+
+  <a routerLink="/companies">Back to Companies</a>
+</div>
