@@ -1,0 +1,89 @@
+services:
+  aui-employee:
+    image: aui-employee:1.0.0-SNAPSHOT
+    restart: always
+    networks:
+      - aui-network
+    environment:
+      - COMPANY_URL=http://aui-company:8081
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://employee-db:3306/employee_management
+      
+    depends_on:
+      employee-db:
+          condition: service_healthy
+
+  aui-company:
+    image: aui-company:1.0.0-SNAPSHOT
+    restart: always
+    networks: 
+      - aui-network
+    environment:
+      - EMPLOYEE_URL=http://aui-employee:8082
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=com.mysql.cj.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://company-db:3306/company_management
+    depends_on:
+      company-db:
+        condition: service_healthy
+
+  aui-gateway:
+    image: aui-gateway:1.0.0-SNAPSHOT
+    restart: always
+    depends_on:
+      - aui-employee
+      - aui-company
+    networks:
+      - aui-network
+    ports:
+      - 8080:8080
+    environment:
+      - COMPANY_URL=http://aui-company:8081
+      - EMPLOYEE_URL=http://aui-employee:8082
+
+
+  aui-angular:
+    image: aui-angular:1.0.0-SNAPSHOT
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - aui-gateway
+  
+  company-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: company_management
+    networks:
+      - aui-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -proot || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  employee-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: employee_management
+    networks:
+      - aui-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -proot || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+networks:
+  aui-network:

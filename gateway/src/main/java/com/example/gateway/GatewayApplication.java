@@ -18,9 +18,9 @@ public class GatewayApplication {
 	@Bean
     public RouteLocator routeLocator(
             RouteLocatorBuilder builder,
-            @Value("${routing.gateway.host}") String host,
-            @Value("${routing.company.url}") String companyUrl,
-            @Value("${routing.employee.url}") String employeeUrl
+            @Value("${gateway.host}") String host,
+            @Value("${company.url}") String companyUrl,
+            @Value("${employee.url}") String employeeUrl
     ){
         return builder.routes()
                 .route("company", r -> r
